@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	//for skills progree-bar
 	$('.progress-bar-success').map(function(){
 		var skill_value = $(this).attr('skill-val');
 		if( skill_value == 0 || skill_value < 35 ) {
