@@ -46,6 +46,7 @@ class LoginController extends Controller
         ];
     }*/
 
+    //change auth login with username
     public function username()
     {
         return 'user_name';
