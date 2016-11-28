@@ -1,0 +1,1 @@
+we have changed your password.Your new Password is {{$password}}
