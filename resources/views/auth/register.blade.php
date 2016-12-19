@@ -132,7 +132,7 @@
 
     </head>
 
-    <body>
+    <body class="register">
 
 
 
@@ -147,11 +147,14 @@
                         </div>
                     </div>
                     <div class="row reg-width">
-                        <div class="col-sm-6 col-sm-offset-3 " style=" background-color: #407F76">
+                        <div class="col-sm-7 col-sm-offset-3 " style=" background-color: #407F76">
 
                             <form  action="{{ url('/register') }}" role="form" id="registerForm" method="post" >
 
                                 <div class="registerFormContainer">
+                                    <div  align="center">
+                                        <img  src="{{URL::asset('public/images/icon.png')}}">
+                                    </div>
                                     {{ csrf_field() }}
 
                                     <div class="form-bottom" style=" background-color: #407F76">
@@ -230,6 +233,7 @@
                                             <div class="form-group form-group-sm">
                                                 <label class="sr-only" >University</label>
                                                 <select data-placeholder="Choose a university..." name="university" class="chosen-select form-control validate[required] js-data-example-ajax">
+                                                <option value="1">Alexandria</option>
                                                 </select> 
                                             </div>
 
@@ -241,6 +245,7 @@
                                             <div class="form-group form-group-sm">
                                                 <label class="sr-only" for="form-repeat-password">Major</label>
                                                 <select id="coursesList" data-placeholder="Choose  Major Course..." name="degree" class="chosen-select form-control validate[required]">
+                                                <option value="1">Computer Science</option>
                                                 </select>  
                                             </div>
                                             <div class="form-group  form-group-sm">
@@ -294,11 +299,16 @@
                                         </div>
                                         <div class="formFooter" style="margin-left: 10%;width: 85%;">
                                             <div class="form-group  form-group-sm">
-                                                <label class="sr-only" for="form-password"></label>
-                                                <input id="termsCheck" type="checkbox" data-reverse> <span style="color: #ffffff;"> Check to confirm you have read and accepted the <a style="color:#19b9e7;" href="/user/termsOfServices" target="_blank"> Terms of Service </a>. </span>
+                                                <span style="color: #ffffff;">
+                                                    <label class="sr-only" for="form-password"></label>
+                                                    <input id="termsCheck" type="checkbox" data-reverse>
+                                                    <span style="color:#000;">Check to confirm you have read and accepted the </span><span><a style="color:#19b9e7;text-decoration: underline;" href="/user/termsOfServices" target="_blank">Terms of Service</a>.</span> 
+                                                </span>
                                             </div> 
-                                            <button   onClick="previous();" class="btn">Previous</button>
                                             <button onClick="submitRegisterForm()" type="button" class="btn">Sign me up!</button>
+                                            <div class="sign-in-old-user">
+                                                <p>You already signed up!</p>
+                                                <button   onClick="previous();" class="btn">Sign in here!</button>
                                         </div>
                                         <br><br>
                                     </div>  

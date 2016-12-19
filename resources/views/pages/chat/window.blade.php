@@ -21,8 +21,8 @@
                             <span class="direct-chat-timestamp {{$chat['cssTimePull']}}">{{$chat->created_at->diffForHumans()}}</span>
                         </div>
                         <!-- /.direct-chat-info -->
-                        <a href="{{$chat['profile_link']}}">
-                            <img class="direct-chat-img" src="{{ $chat['profile_picture_path'] }}" alt="Message User Image"><!-- /.direct-chat-img -->
+                        <a href="{{ url($chat['profile_link']) }}">
+                            <img class="direct-chat-img" src="{{ asset('public/'.$chat['profile_picture_path']) }}" alt="Message User Image"><!-- /.direct-chat-img -->
                         </a>
                         <div class="direct-chat-text">
                             {{ $chat->message }}
@@ -36,13 +36,14 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <form  method="POST" action="/user/chat/send" >
+                <form  method="POST" action="{{ url('/user/chat/send') }}" >
+                <!-- <form  method="POST" action="" > -->
                     {{ csrf_field() }}
                     <div class="input-group">
                         <input type="hidden" name="receiver_id" value="{{ $guest->id }}">
                         <input type="text" name="message" placeholder="Type Message ..." class="form-control">
                         <span class="input-group-btn">
-                            <button type="submit" class="btn btn-primary btn-flat">Send</button>
+                            <button type="submit" id="send_msg" class="btn btn-primary btn-flat">Send</button>
                         </span>
                     </div>
                 </form>

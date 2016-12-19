@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Http\Request;
 use Request as Temp;
+use DB;
+use App\Notification;
 
 class NotificationController extends Controller {
 
@@ -29,6 +31,14 @@ class NotificationController extends Controller {
             'unReadNotificationsCount' => $notificationData['unReadNotificationCount'],
             'notificationView' => $view2
         );
+    }
+
+    public function delete_notification(Request $request) {
+        $Notification_ID = $request->input('The_Id');
+        Notification::find($Notification_ID)->delete();
+        if($request->ajax()){
+           return response()->json(['deleted' =>  1], 200);
+        }
     }
 
 }

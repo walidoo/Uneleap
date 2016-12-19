@@ -3,11 +3,11 @@
     @foreach( $library['comments'] as $comment)
     <div class="box-comment" id="libraryComment-{{$comment->id}}">
         <!-- User image -->
-        <img class="img-circle img-sm" src="{{ $comment['user']->profile_picture_path }}" alt="User Image">
+        <img class="img-circle img-sm" src="{{ URL::asset('public/'.$comment['user']->profile_picture_path) }}" alt="User Image">
 
         <div class="comment-text">
             <span class="username">
-                <a href="/user/profile/{{$comment['user']->id}}"> {{ $comment['user']->name }} </a>
+                <a href="{{ url('/user/profile/'.$comment['user']->id) }}"> {{ $comment['user']->name }} </a>
                 <span class="text-muted pull-right">{{$comment->created_at->diffForHumans()}}</span>
             </span><!-- /.username -->
              <span id="libraryCommentTile-{{$comment->id}}" > {{ $comment->comment}} </span>
@@ -32,7 +32,7 @@
     <form method="POST" action="{{ url('/library/comment/store') }}">
         {{ csrf_field() }}
         <input type="hidden" name="library_id" value="{{$library->id}}">
-        <img class="img-responsive img-circle img-sm" src="{{$user->profile_picture_path}}" alt="Alt Text">
+        <img class="img-responsive img-circle img-sm" src="{{ URL::asset('public/'.$user->profile_picture_path) }}" alt="Alt Text">
         <div class="img-push">
             <input type="text" id="commentBox" name="comment" class="form-control input-sm" placeholder="Press enter to post comment">
         </div>

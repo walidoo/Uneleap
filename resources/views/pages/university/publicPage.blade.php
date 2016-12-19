@@ -11,7 +11,7 @@
             <div class="box box-primary">
                 <div class="box-body box-profile" style="background:url()">
 
-                    <img src="{{ $university->profile  }}" class="profile-user-img img-responsive img-circle" alt="User Image">
+                    <img src="{{ URL::asset('public/'.$university->profile) }}" class="profile-user-img img-responsive img-circle" alt="User Image">
 
                     <h3 class="profile-username text-center">{{ $university->name   }}</h3>
 
@@ -175,7 +175,7 @@
             <!-- Profile Image -->
             <div class="box box-primary">
 
-                <b>Page Not Found</b> 
+                <b>There is no data about the university!</h4></b> 
 
             </div>
         </div>

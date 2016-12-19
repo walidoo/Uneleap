@@ -49,7 +49,7 @@
                                     </p>
                                     <div class="col-md-8 col-md-offset-2">
 
-                                        <img  <?php if (!empty($user->profile_picture_path)) { ?> src="{{$user->profile_picture_path}}" <?php } else { ?>src="/uploads/afowode@my.fit.edu.jpg"   <?php } ?>
+                                        <img  <?php if (!empty($user->profile_picture_path)) { ?> src="{{ URL::asset('public/'.$user->profile_picture_path) }}" <?php } else { ?> src="{{ URL::asset('public/uploads/afowode@my.fit.edu.jpg') }}"   <?php } ?>
                                                                                                   class="profile-user-img img-responsive img-circle" alt="User Image">
 
                                         <p class="text-muted text-center" style="color:#fff"></p>
@@ -70,8 +70,11 @@
                                             </label><label class="btn glyphicon glyphicon-paperclip"> <input name="avatar" type="file" style="display: none;"></label></div></h2>
                                     <div class="intro" >
                                         <p id='profile_intro'>
-                                            Creating an educational family one institution at a time											
-
+                                        @if( empty($user->profile_summary) )
+                                        Creating an educational family one institution at a time
+                                        @else
+                                            {{ $user->profile_summary }}
+                                        @endif
                                         </p>
                                     </div>
                                     <div class="summary" style="width:1050px">
@@ -207,7 +210,7 @@
                                                                 <div class="container">
 
 
-                                                                    <div id="preview"><img src="/public/no-image.jpg" /></div>
+                                                                    <div id="preview"><img src="{{ URL::asset('public/no-image.jpg') }}" /></div>
                                                                     `
                                                                     <form id="form" method="POST" action="{{ url('/user_profile/picture') }}" enctype="multipart/form-data">
                                                                         {{ csrf_field() }}
@@ -227,7 +230,7 @@
                                                                 <div class="container">
 
 
-                                                                    <div id="preview_back"><img src="/public/no-image.jpg" /></div>
+                                                                    <div id="preview_back"><img src="{{ URL::asset('public/no-image.jpg') }}" /></div>
 
                                                                     <form id="form" method="POST" action="{{ url('/user_profile/picture') }}" enctype="multipart/form-data">
                                                                         {{ csrf_field() }}
@@ -369,8 +372,11 @@
                                                                 <div class="col-lg-8 col-sm-8">
                                                                     <ul><li class="start-date">
                                                                             <select class="validate[required]" aria-describedby="month-startDate-position-editPositionForm-error" type="singleselect" id="month-startDate-position-editPositionForm" name="starting_month"><option selected="selected" value="">Choose...</option><option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select><label for="year-startDate-position-editPositionForm" id="control_gen_54" style="display: none;">Year</label><script class="li-control" type="text/javascript+initialized" id="controlinit-dust-client-36">LI.Controls.addControl("control-dust-client-36", "GhostLabel", {})</script><input type="text" data-ime-mode-disabled="" class="year validate[required]" maxlength="4" id="year-startDate-position-editPositionForm" value="" name="starting_year" placeholder="Year"><span class="to">&ndash;</span></li><li class="end-date"><div class="ended-position">
-                                                                                <select  aria-describedby="month-monthYear-endDate-position-editPositionForm-error" type="singleselect" id="month-monthYear-endDate-position-editPositionForm" name="ending_month"><option selected="selected" value="">Choose...</option><option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select><label for="year-monthYear-endDate-position-editPositionForm" id="control_gen_55" style="display: none;">Year</label><script class="li-control" type="text/javascript+initialized" id="controlinit-dust-client-37">LI.Controls.addControl("control-dust-client-37", "GhostLabel", {})</script><input type="text" data-ime-mode-disabled="" class="year" maxlength="4" id="year-monthYear-endDate-position-editPositionForm" value="" name="ending_year" placeholder="Year"></div><div class="current-position">Present</div><label id="still-here" class="checkbox">
-                                                                                <input type="checkbox" name="is_currently_working" class="experience-still-here-checkbox" id="isCurrent-endDate-position-editPositionForm"  >I currently work here</label></li></ul>
+                                                                                <select  aria-describedby="month-monthYear-endDate-position-editPositionForm-error" type="singleselect" id="month-monthYear-endDate-position-editPositionForm" name="ending_month"><option selected="selected" value="">Choose...</option><option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select><label for="year-monthYear-endDate-position-editPositionForm" id="control_gen_55" style="display: none;">Year</label><script class="li-control" type="text/javascript+initialized" id="controlinit-dust-client-37">LI.Controls.addControl("control-dust-client-37", "GhostLabel", {})</script><input type="text" data-ime-mode-disabled="" class="year" maxlength="4" id="year-monthYear-endDate-position-editPositionForm" value="" name="ending_year" placeholder="Year"></div>
+                                                                                   </li></ul>
+                                                                                <div class="current-position">Present</div>
+                                                                                <label id="still-here" class="checkbox">
+                                                                                <input type="checkbox" name="is_currently_working" class="experience-still-here-checkbox" id="isCurrent-endDate-position-editPositionForm" value="on"  >I currently work here</label>
                                                                     <span class="text-danger"></span>
                                                                 </div>
                                                             </div>
@@ -655,7 +661,12 @@
                                             {
                                             var experience = JSON.parse(experience);
                                                     var start = experience['date_from'].split(",");
-                                                    var end = experience['date_to'].split(",");
+                                                    if( experience['date_to'] ==null ) {
+                                                        var end = ['Present', 'present'];
+                                                    } else {
+                                                        var end = experience['date_to'].split(",");
+                                                    }
+                                                    console.log(end);
                                                     /*       $('#ExpForm').find('input[name="ending_month"]').value  = (new Date(end[0]+'-1-01').getMonth()+1);
                                                      */
                                                     $('#ExpForm').find('input[name="ending_year"]').val(end[1]);
@@ -814,7 +825,7 @@
                                                                     cache: false,
                                                                     success: function (result) {
                                                                     //alert(result);
-
+console.log(result);
                                                                     var response = result.trim().split('###');
                                                                             $('#prjForm').find('input[name="prj_title"]').val(response[2]);
                                                                             $('#prjForm').find('input[name="company_name"]').val(response[0]);

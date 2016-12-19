@@ -10,7 +10,7 @@
             <div class="box box-primary">
                 <div class="box-body box-profile">
 
-                    <img src="{{ $user->profile_picture_path  }}" class="profileImg profile-user-img img-responsive img-circle" alt="User Image">
+                    <img src="{{ URL::asset('public/'.$user->profile_picture_path) }}" class="profileImg profile-user-img img-responsive img-circle" alt="User Image">
 
                     <script>
 

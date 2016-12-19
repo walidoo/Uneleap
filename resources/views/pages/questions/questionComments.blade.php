@@ -3,7 +3,7 @@
     @foreach( $question['comments'] as $comment)
     <div class="box-comment" id="questionComment-{{$comment->id}}">
         <!-- User image -->
-        <img class="img-circle img-sm" src="{{ $comment['user']->profile_picture_path }}" alt="User Image">
+        <img class="img-circle img-sm" src="{{ URL::asset('public/'.$comment['user']->profile_picture_path) }}" alt="User Image">
 
         <div class="comment-text">
             <span class="username">
@@ -33,7 +33,7 @@
     <form method="POST" action="{{ url('/question/comment/store') }}">
         {{ csrf_field() }}
         <input type="hidden" name="question_id" value="{{$question->id}}">
-        <img class="img-responsive img-circle img-sm" src="{{$user->profile_picture_path}}" alt="Alt Text">
+        <img class="img-responsive img-circle img-sm" src="{{ URL::asset('public/'.$user->profile_picture_path) }}" alt="Alt Text">
         <div class="img-push">
             <input type="text" id="commentBox" name="comment" class="form-control input-sm" placeholder="Press enter to post comment">
         </div>

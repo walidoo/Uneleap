@@ -6,6 +6,7 @@
         <title>{{ config('app.name', 'Uneleap | Dashboard') }}</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <meta class="public_path" content="{{ URL::to('/') }}">
         <!-- Bootstrap 3.3.6 -->
         <link rel="stylesheet" href="{{ URL::asset('public/bootstrap/css/bootstrap.min.css') }}">
         <!-- Font Awesome -->
@@ -53,7 +54,7 @@ echo json_encode([
         <div class="wrapper">
 
             <header class="main-header">
-                <a href="/home" class="logo">
+                <a href="{{ url('/home') }}" class="logo">
                     <span class="logo-mini"><b>E</b></span>
                     <span class="logo-lg"><b>UnELeaP</b></span>
                 </a>
@@ -67,12 +68,12 @@ echo json_encode([
                             @include('pages.notifications.header')
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="{{ $user->profile_picture_path }}" class="user-image" alt="User Image">
+                                    <img src="{{ URL::asset('public/'.$user->profile_picture_path) }}" class="user-image" alt="User Image">
                                     <span class="hidden-xs">{{$user->name}}</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="user-header">
-                                        <img src="{{ $user->profile_picture_path }}" class="img-circle" alt="User Image">
+                                        <img src="{{ URL::asset('public/'.$user->profile_picture_path) }}" class="img-circle" alt="User Image">
                                         <p>
                                             {{ $user->name }}
                                             <small>Member since {{ $user->created_at->diffForHumans() }}</small>
@@ -81,13 +82,13 @@ echo json_encode([
                                     <li class="user-body">
                                         <div class="row">
                                             <div class="col-xs-4 text-center">
-                                                <a href="/user/getFollowers">Followers</a>
+                                                <a href="{{ url('/user/getFollowers') }}">Followers</a>
                                             </div>
                                             <div class="col-xs-4 text-center">
-                                                <a href="/user/getFollowings">Followings</a>
+                                                <a href="{{ url('/user/getFollowings') }}">Followings</a>
                                             </div>
                                             <div class="col-xs-4 text-center">
-                                                <a href="/user/followings/pendingRequests">Pending Request</a>
+                                                <a href="{{ url('/user/followings/pendingRequests') }}">Pending Request</a>
                                             </div>
                                         </div>
                                     </li>
@@ -305,10 +306,12 @@ echo json_encode([
             </aside>
             <div class="control-sidebar-bg"></div>
         </div>   
+        <!-- <script src="{{ URL::asset('public/plugins/jQuery/jquery-2.2.3.min.js') }}"></script> -->
         <script src="/js/common.js"></script>
+        <!-- Add custom [wr] js file -->
         <script src="{{ URL::asset('public/js/wr_scripts.js') }}"></script>
         <script>
-updateHeader();
+/*updateHeader();
 
 function updateHeader()
 {
@@ -331,13 +334,13 @@ function updateHeader()
         }, 30000);
     });
     var response = AjaxModule.postRequestReturnResponse('/user/updateHeader', 'POST', params, callback_urgencyAdminJdReport);
-}
+}*/
         </script>
-
 
         <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
         <script>
-$.widget.bridge('uibutton', $.ui.button);</script>
+            $.widget.bridge('uibutton', $.ui.button);
+        </script>
 
 
 

@@ -101,7 +101,7 @@ class QuestionController extends Controller {
     }
 
     public function getQuestion($id) {
-        $questionId = \decrypt($id);
+        // $questionId = \decrypt($id);
         return ( new QuestionGateway())->getQuestion($id);
     }
     public function getQuestionWithNotification($id,$notificationId)

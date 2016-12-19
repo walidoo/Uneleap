@@ -7,8 +7,10 @@ use App\Http\Requests;
 use Datatables;
 use App\User;
 use App\Question;
+use App\University;
 use App\Library;
 use App\Feedback;
+use DB;
 use Request as Temp;
 
 class DatatablesController extends Controller {
@@ -54,11 +56,92 @@ class DatatablesController extends Controller {
 
     public function search() {
         $user = ( new \App\Http\Gateways\UserGateway())->getUser(\Auth::id());
-        return view('pages.search.index')->with([
-                    'user' => $user
-        ]);
+        // return view('pages.search.index')->with([
+        //             'user' => $user, 'qq' => $qqq 
+        // ]);
+        return view('pages.search.index');
     }
 
+    public function get_user_search(Request $request) {
+        $user = ( new \App\Http\Gateways\UserGateway())->getUser(\Auth::id());
+        $user_name = $request->input('q');
+        $all_users_search = DB::table('users')->where('user_name', 'like', "$user_name%")
+                                              ->orWhere('user_name', 'like', "%$user_name%")
+                                              ->get();
+        return view('pages.search.index')->with([
+                                                    'user_search' => $all_users_search,
+                                                    'user' => $user
+                                                ]);
+    }
+
+    public function get_search_question(Request $request) {
+        // $user = ( new \App\Http\Gateways\UserGateway())->getUser(\Auth::id());
+        $question_search_key = $request->input('search_val');
+        $all_questions_search = DB::table('questions')->where('title', 'like', "$question_search_key%")
+                                              ->orWhere('title', 'like', "%$question_search_key%")
+                                              ->get();
+        foreach( $all_questions_search as $each_questions_search ) {
+            $filter_name = Question::find($each_questions_search->id)->filters;
+            // print_r($filter_name);
+            $each_questions_search->filter_name = $filter_name;
+        }
+        if($request->ajax()){
+           return response()->json(['question_search' =>  $all_questions_search], 200);
+        }
+
+    }
+
+    public function get_search_library(Request $request) {
+        $user = ( new \App\Http\Gateways\UserGateway())->getUser(\Auth::id());
+        $library_search_key = $request->input('search_val');
+        $all_library_search = DB::table('libraries')->where('title', 'like', $library_search_key.'%')
+                                                    ->orWhere('title', 'like', "%$library_search_key%")->get();
+        if( sizeof( $all_library_search ) == 0 ) {
+          $all_library_search = DB::table('libraries')->where('author', 'like', $library_search_key.'%')
+                                                    ->orWhere('author', 'like', "%$library_search_key%")->get();  
+        }
+        foreach( $all_library_search as $each_library_search ) {
+            $filter_name = Library::find($each_library_search->id)->filters;
+            // print_r($filter_name);
+            $each_library_search->filter_name = $filter_name;
+        }
+        if($request->ajax()){
+           return response()->json(['library_search' =>  $all_library_search], 200);
+        }
+    }
+
+    public function get_search_university(Request $request) {
+        $user = ( new \App\Http\Gateways\UserGateway())->getUser(\Auth::id());
+        $university_search_key = $request->input('search_val');
+        $all_university_search = DB::table('universities')->where('name', 'like', $university_search_key.'%')
+                                                    ->orWhere('name', 'like', "%$university_search_key%")->get();
+        foreach( $all_university_search as $each_university_search ) {
+            $university_filter_name = University::find($each_university_search->id)->university_info;
+            // print_r($filter_name);
+            $each_university_search->university_filter_data = $university_filter_name;
+        }
+        if($request->ajax()){
+           return response()->json(['university_search' =>  $all_university_search], 200);
+        }
+    }
+
+
+    public function get_search_event(Request $request) {
+        $user = ( new \App\Http\Gateways\UserGateway())->getUser(\Auth::id());
+        $event_search_key = $request->input('search_val');
+        $all_event_search = DB::table('events')->where('title', 'like', $event_search_key.'%')
+                                                    ->orWhere('title', 'like', "%$event_search_key%")->get();
+        foreach( $all_event_search as $each_event_search ) {
+            $event_filter_name = University::find($each_event_search->id)->filters;
+            // print_r($filter_name);
+            $each_event_search->event_filter_data = $event_filter_name;
+        }
+        if($request->ajax()){
+           return response()->json(['event_search' =>  $all_event_search], 200);
+        }
+    }
+
+    //Deprecated
     public function anyData() {
         $users = Datatables::of(User::query())
                         ->addColumn('profile', function ($user) {
@@ -67,9 +150,13 @@ class DatatablesController extends Controller {
                             }
                             return '<img style="height: 30%;width: 25%;"src="' . $user->profile_picture_path . '">';
                         })->make(true);
-        return $users;
+        return view('pages.search.index')->with([
+                    'user' => $users
+        ]);
+        // return $users;
     }
 
+    //Deprecated
     public function getPageOnType() {
 
         if (!Temp::ajax() || !Temp::has('data')) {
@@ -86,6 +173,8 @@ class DatatablesController extends Controller {
         }
     }
 
+
+    //Deprecated
     public function searchQuestion() {
 
         $user = \Auth::user();
@@ -111,6 +200,7 @@ class DatatablesController extends Controller {
                         ->make(true);
     }
 
+    //Deprecated
     public function searchLibrary() {
         $user = \Auth::user();
         return Datatables::of(Library::with('filters')->select('libraries.*'))

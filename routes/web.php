@@ -14,6 +14,15 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('cache:clear');
+    // return what you want
+    return 'Clear Cache successfully!';
+});
+
+Route::get('user/activation/{token}', 'Auth\RegisterController@userActivation');
+
 Route::get('universities/add', 'UniversityController@insertUniversities');
 Route::get('courses/add', 'UniversityController@insertCourses');
 Route::any('universities/list', 'UniversityController@getList');
@@ -73,7 +82,8 @@ Route::group(['middleware' => ['auth', 'isUserActive']], function () {
     
     Route::any('user_profile/experience/delete', 'UserController@deleteExperience');
     
-    
+    //Delete Notification
+    Route::delete('/delete_notify', 'NotificationController@delete_notification');
     
     
 
@@ -130,6 +140,7 @@ Route::group(['middleware' => ['auth', 'isUserActive']], function () {
 
     Route::get('user/chat/{id}', 'ChatController@openChatBox');
     Route::post('user/chat/send', 'ChatController@sendMessage');
+    Route::post('send', 'ChatController@send_this_msg');
     Route::post('user/feedback', 'FeedbackController@feedback');
     Route::get('user/feedback/form', 'FeedbackController@feedbackForm');
     Route::get('user/notice/board', 'NoticeController@noticeBoard');
@@ -137,10 +148,12 @@ Route::group(['middleware' => ['auth', 'isUserActive']], function () {
     Route::get('admin/notice/form', 'NoticeController@showNoticeForm');
     Route::post('notice/delete', 'NoticeController@delete');
 
-    Route::any('/search', 'DatatablesController@search');
-    Route::any('/search/user', 'DatatablesController@anyData');
-    Route::any('/search/question', 'DatatablesController@searchQuestion');
-    Route::any('/search/library', 'DatatablesController@searchLibrary');
+    Route::get('/search', 'DatatablesController@get_user_search');
+    // Route::any('/search/user', 'DatatablesController@anyData');
+    Route::get('/search/question', 'DatatablesController@get_search_question');
+    Route::get('/search/library', 'DatatablesController@get_search_library');
+    Route::get('/search/university', 'DatatablesController@get_search_university');
+    Route::get('/search/event', 'DatatablesController@get_search_event');
     Route::any('/search/type', 'DatatablesController@getPageOnType');
 
     Route::any('admin/getFeedbacks', 'DatatablesController@getFeedbacks');

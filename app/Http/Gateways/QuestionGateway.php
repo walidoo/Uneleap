@@ -185,7 +185,7 @@ class QuestionGateway {
 
     public function getQuestion($id) {
         $user = \Auth::user();
-        $question = ( new QuestionRepository())->getQuestionWithCommenntsLikes(\decrypt($id));
+        $question = ( new QuestionRepository())->getQuestionWithCommenntsLikes($id);
         $question = $this->setQuestionToDisplay($question, $user);
         return view('pages.questions.singleQuestion')->with([
                     'question' => $question,

@@ -113,7 +113,7 @@ class LibraryController extends Controller {
     }
 
     public function getLibrary($id) {
-        return ( new \App\Http\Gateways\LibraryGateway())->getLibrary(\decrypt($id));
+        return ( new \App\Http\Gateways\LibraryGateway())->getLibrary($id);
     }
 
     public function getLibraryWithNotification($id, $notificationId) {

@@ -7,7 +7,7 @@
         <div class="box box-widget">
             <div class="box-header with-border">
                 <div class="user-block">
-                    <img class="img-circle" src="{{ $question['user']->profile_picture_path }}" alt="User Image">
+                    <img class="img-circle" src="{{ URL::asset('public/'.$question['user']->profile_picture_path) }}" alt="User Image">
                     <span class="username"><a href="/user/profile/{{$question['user']->id}}">{{ $question['user']->name }}</a></span>
                     <span class="description">{{ $question->created_at->diffForHumans() }}</span>
                 </div>

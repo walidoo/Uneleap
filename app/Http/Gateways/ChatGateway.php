@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Config;
 class ChatGateway {
 
     public function openChatBox($id) {
+        // Sender ID
         $user = (new \App\Http\Gateways\UserGateway())->getUser(\Auth::id());
+        // Reciever ID
         $guest = (new \App\Http\Gateways\UserGateway())->getUser($id);
         $chats = (new \App\Repositories\ChatRepository())->getUserWithVisitorChat($user, $guest);
         foreach ($chats as &$chat) {

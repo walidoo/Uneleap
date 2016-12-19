@@ -26,7 +26,7 @@
 
     </head>
 
-    <body style="background-color: #F6F6F6">
+    <body class="login-page" style="background-color: #ffffff">
 
 
         <!-- Top content -->
@@ -92,6 +92,18 @@
                                         </div>
                                     </div>
                                     <!-- Modal -->
+
+                                    @if ($message = Session::get('success'))
+                                        <div class="alert alert-success">
+                                            <p>{{ $message }}</p>
+                                        </div>
+                                    @endif
+
+                                    @if ($message = Session::get('warning'))
+                                        <div class="alert alert-warning">
+                                            <p>{{ $message }}</p>
+                                        </div>
+                                    @endif
 
                                     <div class="form-bottom" style="background-color:#fff;" >
                                     <div id="messagebox" style="background-color:#F00; color:#FFF; font-size:18px; font-weight:800" align="center"></div>

@@ -6,6 +6,10 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use DB;
+use Mail;
+
 
 class RegisterController extends Controller {
     /*
@@ -70,7 +74,7 @@ use RegistersUsers;
     protected function create(array $data) {
         $universityName = $degreeName = null;
 
-        $filters = ['user_name', 'user_type', 'name', 'email', 'password', 'country', 'gender', 'university_id', 'type', 'job_title', 'description'];
+        $filters = ['user_name', 'user_type', 'name', 'email', 'password', 'country', 'gender', 'university_id', 'type', 'job_title', 'description', 'is_activated'];
         $filteredData = \App\Helpers\CommonFunction::filterDataFromRequest($data, $filters);
         if (!empty($data['university'])) {
 
@@ -86,5 +90,58 @@ use RegistersUsers;
         $filteredData['university'] = $universityName;
         $filteredData['degree'] = $degreeName;
         return User::create($filteredData);
+    }
+
+    public function register(Request $request)
+    {
+        $input = $request->all();
+        $validator = $this->validator($input);
+
+        if ($validator->passes()) {
+            $user = $this->create($input)->toArray();
+            $user['link'] = str_random(30);
+
+            DB::table('user_activations')->insert(['id_user'=>$user['id'],'token'=>$user['link']]);
+
+            Mail::send('email.activation', $user, function($message) use ($user) {
+                $message->to($user['email']);
+                $message->subject('UneLeap - Activation Code');
+            });
+
+            return redirect()->to('login')
+                ->with('success',"We sent activation code. Please check your mail.");
+        }
+
+        return back()->with('errors',$validator->errors());
+    }
+
+
+    /**
+     * Check for user Activation Code
+     *
+     * @param  array  $data
+     * @return User
+     */
+    public function userActivation($token)
+    {
+        $check = DB::table('user_activations')->where('token',$token)->first();
+
+        if(!is_null($check)){
+            $user = User::find($check->id_user);
+
+            if($user->is_activated == 1){
+                return redirect()->to('login')
+                    ->with('success',"user are already actived.");                
+            }
+
+            $user->update(['is_activated' => 1]);
+            DB::table('user_activations')->where('token',$token)->delete();
+
+            return redirect()->to('login')
+                ->with('success',"user active successfully.");
+        }
+
+        return redirect()->to('login')
+                ->with('warning',"your token is invalid.");
     }
 }

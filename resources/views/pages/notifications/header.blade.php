@@ -10,7 +10,7 @@
             <ul class="menu" id="notificationHeader">
                 @foreach( $notifications as $notification)
                 <li>
-                    <a href="{{ $notification['href'] }}">
+                    <a href="{{ url($notification['href']) }}">
                         <i class="fa fa-users text-aqua"></i> {{$notification->title}}
                         <span class="text-muted pull-right">{{$notification->created_at->diffForHumans()}}</span>
                     </a>
@@ -19,6 +19,6 @@
                 @endforeach
             </ul>
         </li>
-        <li class="footer"><a href="/user/notifications">View all</a></li>
+        <li class="footer"><a href="{{ url('/user/notifications') }}">View all</a></li>
     </ul>
 </li>

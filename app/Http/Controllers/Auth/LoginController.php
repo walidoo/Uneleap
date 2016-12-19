@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+
+use Auth;
 
 class LoginController extends Controller
 {
@@ -50,6 +53,22 @@ class LoginController extends Controller
     public function username()
     {
         return 'user_name';
+    }
+
+    protected function login(Request $request)
+    {
+
+        if (auth()->attempt(array('user_name' => $request->input('user_name'), 'password' => $request->input('password'))))
+        {
+            if(auth()->user()->is_activated == '0'){
+                Auth::logout();
+                return redirect('login')->with('warning',"First please active your account.");
+            } else {
+                return redirect()->to('home');
+            }
+        } else{
+            return back()->with('warning','your username and password are wrong.');
+        }
     }
 
 }

@@ -42,7 +42,7 @@ class UserGateway {
     }
 
     public function updateProfileSummary($data) {
-        $user = \Auth::user();
+        $user = Auth::user();
         ( new \App\Repositories\UserRepository())->updateProfileSummary($data['profile_summary'], $user);
         return redirect('/user_profile');
     }
@@ -70,7 +70,7 @@ class UserGateway {
         $filteredData = CommonFunction::filterDataFromRequest($data, $filters);
         $filteredData['date_from'] = \date('F', mktime(0, 0, 0, $data['starting_month'], 10)) . ', ' . $data['starting_year'];
         if (!empty($data['ending_month']) && !empty($data['starting_year'])) {
-            $filteredData['date_to'] = \date('F', mktime(0, 0, 0, $data['starting_month'], 10)) . ', ' . $data['starting_year'];
+            $filteredData['date_to'] = \date('F', mktime(0, 0, 0, $data['ending_month'], 10)) . ', ' . $data['ending_year'];
         }
         if (!empty($data['is_currently_working'])) {
             $filteredData['is_currently_working'] = ($data['is_currently_working'] == 'on') ? 1 : 0;

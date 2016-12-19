@@ -142,7 +142,7 @@ class UniversityController extends Controller {
 
     public function getUniversityPage($id) {
         $user = \Auth::user();
-        $university = \App\UniversityInfo::where('university_id', \decrypt($id))->first();
+        $university = \App\UniversityInfo::where('university_id', $id)->first();
         return view('pages.university.publicPage')->with([
                     'university' => $university,
                     'user' => $user

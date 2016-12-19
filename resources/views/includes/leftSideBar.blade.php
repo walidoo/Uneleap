@@ -5,7 +5,7 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="{{ asset($user->profile_picture_path) }}" class="img-circle" alt="User Image">
+                <img src="{{ URL::asset('public/'.$user->profile_picture_path) }}" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
                 <p>{{$user->user_name}}</p>
@@ -24,16 +24,16 @@
                 </span>
             </div>
         </form> -->
-        <form role="form" method="get" id='libraryPostForm' method="POST" action="{{ url('/search') }}" class="sidebar-form">
+        <form role="form" method="get" id="libraryPostForm" action="{{ url('/search') }}" class="sidebar-form">
             {{ csrf_field() }}
             <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search...">
+                <input type="text" name="q" class="form-control" placeholder="Search..." value="<?php if( isset($_GET['q']) ) { echo $_GET['q']; } ?>"">
                 <span class="input-group-btn">
                     <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                     </button>
                 </span>
             </div>
-        </form--!>
+        </form>
         <!-- /.search form 
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">

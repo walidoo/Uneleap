@@ -12,4 +12,8 @@ class University extends Model
     protected $fillable = [
         'name', 
     ];
+
+    public function university_info() {
+    	return $this->hasMany('App\UniversityInfo');
+    }
 }

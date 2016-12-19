@@ -24,7 +24,7 @@
         <ul class="products-list product-list-in-box">
             <li class="item">
                 <div class="product-img">
-                    <img src="{{$library->cover}}" alt="Product Image">
+                    <img src="{{ URL::asset('public/'.$library->cover) }}" alt="Product Image">
                 </div>
                 <div class="product-info">
                     <label> Author: &emsp;    

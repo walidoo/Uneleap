@@ -8,7 +8,7 @@
             <label for="exampleInputPassword1">Composer: </label>
             <br>
             <select id="coursesList" data-placeholder="Select user to start Chat" name="courses[]" class="chosen-select form-control">
-            </select>    
+            </select>
         </div>
         <div class="box box-solid">
             <div class="box-header with-border">
@@ -21,7 +21,7 @@
             </div>
             <div class="box-body no-padding">
                 <ul class="nav nav-pills nav-stacked">
-                    <li id="inboxLi" class="active"><a href="/user/messages"><i class="fa fa-inbox"></i> Inbox
+                    <li id="inboxLi" class="active"><a href="{{ url('/user/messages') }}"><i class="fa fa-inbox"></i> Inbox
                             <span class="label label-primary pull-right">{{ count($inbox)}}</span></a></li>
                 </ul>
             </div>
@@ -50,7 +50,7 @@
                                         <button onClick="deleteChat({{$message['id']}})" type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
                                     </div>
                                 </td>
-                                <td class="mailbox-name"><a href="/user/chat/{{$message['sender_id']}}">{{$message['sender_name']}}</a></td>
+                                <td class="mailbox-name"><a href="{{ url('/user/chat/'.$message['sender_id']) }}">{{$message['sender_name']}}</a></td>
                                 <td class="mailbox-subject">{{$message['message']}}
                                 </td>
                                 <td class="mailbox-attachment"></td>
